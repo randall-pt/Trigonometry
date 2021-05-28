@@ -1,0 +1,16 @@
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\Trigonometry.deps.json
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\Trigonometry.dll
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\ref\Trigonometry.dll
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\Trigonometry.pdb
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.csprojAssemblyReference.cache
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.AssemblyInfoInputs.cache
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.AssemblyInfo.cs
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.csproj.CoreCompileInputs.cache
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.dll
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\ref\Trigonometry.dll
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.pdb
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\Trigonometry.exe
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\Trigonometry.runtimeconfig.json
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\bin\Debug\net5.0\Trigonometry.runtimeconfig.dev.json
+C:\Users\pault\source\repos\Trigonometry\Trigonometry\obj\Debug\net5.0\Trigonometry.genruntimeconfig.cache
