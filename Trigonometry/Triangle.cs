@@ -39,5 +39,12 @@ namespace Trigonometry
             this.AngC = angC;
         }
 
+        public static double LawOfCosine(double a, double b, double c)
+        {
+            double angC = (((a * a) + (b * b)) - c * c) / (2 * a * b);
+            double rad = 180 / Math.PI;
+            return (Math.Acos(angC)*rad);
+        }
+
     }
 }
