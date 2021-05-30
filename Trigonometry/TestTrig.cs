@@ -16,11 +16,16 @@ namespace Trigonometry
             fname = @"C:\Users\pault\source\repos\Trigonometry\Trigonometry\Assets\triangle_test_input.csv";
             Console.WriteLine("I am doing stuff thank you!");
             List<Triangle> tris = GetTestData(fname);
-            foreach (Triangle t in tris)
-            {
-                Console.WriteLine($"{t.SideA}, {t.SideB}, {t.SideC}, {t.AngA}, {t.AngB}, {t.AngC}");
-            }
-            LawOfCosine_test(tris);
+
+
+            List<TestResult> testResult = new List<TestResult>();
+
+            testResult.AddRange(LawOfCosineAngle_test(tris));
+            testResult.AddRange(LawofCosineSide_test(tris));
+            testResult.AddRange(LawOfSineAngle_test(tris));
+            double n = Triangle.LawOfSineAngle(6, 60, 6);
+
+            PrintResults(testResult);
         }
 
         private static List<Triangle> GetTestData(string fname)
@@ -53,7 +58,6 @@ namespace Trigonometry
                         if (j == rline.Length - 1)
                         {
                             lineData[i] = singleValue;
-                            Console.WriteLine(singleValue);
                         }
                     }
                 }
@@ -71,25 +75,46 @@ namespace Trigonometry
             return lst;
         }
 
-        public static void LawOfCosine_test(List<Triangle> input)
+        public static List<TestResult> LawOfCosineAngle_test(List<Triangle> input)
+        {
+            List<TestResult> trs = new List<TestResult>();
+            foreach (Triangle t in input)
+            {
+                double a = Triangle.LawOfCosineAngle(t.SideB, t.SideC, t.SideA);
+                double b = Triangle.LawOfCosineAngle(t.SideA, t.SideC, t.SideB);
+                double c = Triangle.LawOfCosineAngle(t.SideA, t.SideB, t.SideC);
+                trs.Add(new TestResult(t, new Triangle(t.SideA, t.SideB, t.SideC, a, b, c), "Law of Cosine - Angle -"));
+            }
+            return trs;
+        }
+        public static List<TestResult> LawofCosineSide_test(List<Triangle> input)
         {
             List<TestResult> trs = new List<TestResult>();
             foreach(Triangle t in input)
             {
-                double a = Triangle.LawOfCosine(t.SideB, t.SideC, t.SideA);
-                double b = Triangle.LawOfCosine(t.SideA, t.SideC, t.SideB);
-                double c = Triangle.LawOfCosine(t.SideA, t.SideB, t.SideC);
-                Console.WriteLine($"{a} || {b} || {c}");
-                trs.Add(new TestResult(t, new Triangle(t.SideA, t.SideB, t.SideC, a, b, c)));
+                double sideA = Triangle.LawofCosingSide(t.SideB, t.SideC, t.AngA);
+                double sideB = Triangle.LawofCosingSide(t.SideA, t.SideC, t.AngB);
+                double sideC = Triangle.LawofCosingSide(t.SideA, t.SideB, t.AngC);
+
+                trs.Add(new TestResult(t, new Triangle(sideA, sideB, sideC, t.AngA, t.AngB, t.AngC), "Law of Cosine - Side -"));
             }
+            return trs;
+        }
+
+        public static void PrintResults(List<TestResult> trs)
+        { 
             double rad = 180 / Math.PI;
             int triSet = 0;
             foreach(TestResult tr in trs)
             {
+                /*
+                Console.WriteLine($"Test type -> {tr.TestType}");
                 Console.WriteLine($"Triangle Set --- {triSet} ---");
                 triSet++;
+                
                 if (tr.Matched)
                 {
+                    
                     Console.WriteLine($"Test Input  -> {tr.Input.SideA} || { tr.Input.SideB} || { tr.Input.SideC} || { tr.Input.AngA} || { tr.Input.AngB} || { tr.Input.AngC}");
                     Console.WriteLine($"Test Output -> {tr.Output.SideA} || {tr.Output.SideB} || {tr.Output.SideC} || {tr.Output.AngA} || {tr.Output.AngB} || {tr.Output.AngC}");
                 }
@@ -108,13 +133,74 @@ namespace Trigonometry
                     Console.WriteLine($" -> {tr.Matched}");
                     
                 }
-                Console.WriteLine("-----------------------------------");
+                */
+                
+                if (!tr.Matched)
+                {
+                    Console.WriteLine($"Test type -> {tr.TestType}");
+                    Console.WriteLine($"Test Failed. Output does not match expected results.");
+                    Console.WriteLine($"Test Input  -> {tr.Input.SideA} || { tr.Input.SideB} || { tr.Input.SideC} || { tr.Input.AngA} || { tr.Input.AngB} || { tr.Input.AngC}");
+                    Console.WriteLine($"Test Output -> {tr.Output.SideA} || {tr.Output.SideB} || {tr.Output.SideC} || {tr.Output.AngA} || {tr.Output.AngB} || {tr.Output.AngC}");
+                    Console.WriteLine($"Matched Perameters -> {tr.MatchedList}");
+                    Console.WriteLine($" -> OUT DIF SA -> {tr.Output.SideA >= tr.Input.SideA - 0.01 && tr.Output.SideA <= tr.Input.SideA + 0.01 }" +
+                        $"|| OUT DIF SA -> {tr.Output.SideB >= tr.Input.SideB - 0.01 && tr.Output.SideB <= tr.Input.SideB + 0.01 }" +
+                        $"|| OUT DIF SA -> {tr.Output.SideC >= tr.Input.SideC - 0.01 && tr.Output.SideC <= tr.Input.SideC + 0.01 }");
+                    Console.WriteLine($" -> OUT DIF AA -> {tr.Output.AngA >= tr.Input.AngA - 0.01 && tr.Output.AngA <= tr.Input.AngA + 0.01 }" +
+                        $"|| OUT DIF AB -> {tr.Output.AngB >= tr.Input.AngB - 0.01 && tr.Output.AngB <= tr.Input.AngB + 0.01 } " +
+                        $"|| OUT DIF AC -> {tr.Output.AngC >= tr.Input.AngC - 0.01 && tr.Output.AngC <= tr.Input.AngC + 0.01 } ");
+                    Console.WriteLine($" -> {tr.Matched}");
+                    Console.WriteLine("-----------------------------------");
+
+                }
             }
-            
         }
+        
+        public static List<TestResult> LawOfSineAngle_test(List<Triangle> input)
+        {
+            List<TestResult> trs = new List<TestResult>();
+
+            foreach(Triangle t in input)
+            {
+                
+                double angA1 = Triangle.LawOfSineAngle(t.SideB, t.AngB, t.SideA);
+                double angA2 = Triangle.LawOfSineAngle(t.SideC, t.AngC, t.SideA);
+                double angB1 = Triangle.LawOfSineAngle(t.SideA, t.AngA, t.SideB);
+                double angB2 = Triangle.LawOfSineAngle(t.SideC, t.AngC, t.SideB);
+                double angC1 = Triangle.LawOfSineAngle(t.SideA, t.AngA, t.SideC);
+                double angC2 = Triangle.LawOfSineAngle(t.SideB, t.AngB, t.SideC); 
+                /*
+                double angA1 = Math.Round(Triangle.LawOfSineAngle(t.SideB, t.AngB, t.SideA), 10);
+                double angA2 = Math.Round(Triangle.LawOfSineAngle(t.SideC, t.AngC, t.SideA), 10);
+                double angB1 = Math.Round(Triangle.LawOfSineAngle(t.SideA, t.AngA, t.SideB), 10);
+                double angB2 = Math.Round(Triangle.LawOfSineAngle(t.SideC, t.AngC, t.SideB), 10);
+                double angC1 = Math.Round(Triangle.LawOfSineAngle(t.SideA, t.AngA, t.SideC), 10);
+                double angC2 = Math.Round(Triangle.LawOfSineAngle(t.SideB, t.AngB, t.SideC), 10);
+                */
+                bool equal = (angA1 == angA2 && angB1 == angB2 && angC1 == angC2);
+                Console.WriteLine(equal);
+                trs.Add(new TestResult(t, new Triangle(t.SideA, t.SideB, t.SideC, angA1, angB1, angC1), "Law of Sine - Angle - "));
+                if (equal)
+                {
+                    Console.WriteLine("good");
+                }
+                else
+                {
+                    Console.WriteLine($"Angle A --> 1-{angA1} --> 2-{angA2}\nAngle B --> 1-{angB1} --> 2-{angB2}\nAngle C --> 1-{angC1} --> 2-{angC2}");
+                    Console.WriteLine($"" +
+                        $"Angle A --> 1-{Math.Round(angA1,10)} --> 2-{Math.Round(angA2,10)}" +
+                        $"\nAngle B --> 1-{Math.Round(angB1,10)} --> 2-{Math.Round(angB2,10)}" +
+                        $"\nAngle C --> 1-{Math.Round(angC1,10)} --> 2-{Math.Round(angC2,10)}");
+                }
+            }
+            return trs;
+
+        }
+        
     }
     class TestResult
     {
+        public string TestType
+        { get; private set; }
         public Triangle Input
         { get; private set; }
         public Triangle Output
@@ -123,8 +209,9 @@ namespace Trigonometry
         { get; private set; }
         public string MatchedList
         { get; private set; }
-        public TestResult(Triangle inp, Triangle outp)
+        public TestResult(Triangle inp, Triangle outp, string testType)
         {
+            this.TestType = testType;
             this.Input = inp;
             this.Output = outp;
             this.Matched = MatchedSet(inp, outp);
@@ -132,14 +219,6 @@ namespace Trigonometry
 
         private bool MatchedSet(Triangle inp, Triangle outp)
         {
-            /*
-            double sa = Math.Round(outp.SideA, 3);
-            double sb = Math.Round(outp.SideB, 3);
-            double sc = Math.Round(outp.SideC, 3);
-            double aa = Math.Round(outp.AngA, 3);
-            double ab = Math.Round(outp.AngB, 3);
-            double ac = Math.Round(outp.AngC,3);
-            */
             double sa = outp.SideA;
             double sb = outp.SideB;
             double sc = outp.SideC;
@@ -147,12 +226,12 @@ namespace Trigonometry
             double ab = outp.AngB;
             double ac = outp.AngC;
             bool[] match = new bool[6];
-            match[0] = (sa >= inp.SideA - 0.001 && sa <= inp.SideA + 0.001 );
-            match[1] = (sb >= inp.SideB - 0.001 && sb <= inp.SideB + 0.001);
-            match[2] = (sc >= inp.SideC - 0.001 && sc <= inp.SideC + 0.001);
-            match[3] = (aa >= inp.AngA - 0.001 && aa <= inp.AngA + 0.001);
-            match[4] = (ab >= inp.AngB - 0.001 && ab <= inp.AngB + 0.01);
-            match[5] = (ac >= inp.AngC - 0.001 && ac <= inp.AngC + 0.001);
+            match[0] = (sa >= inp.SideA - 0.01 && sa <= inp.SideA + 0.01 );
+            match[1] = (sb >= inp.SideB - 0.01 && sb <= inp.SideB + 0.01);
+            match[2] = (sc >= inp.SideC - 0.01 && sc <= inp.SideC + 0.01);
+            match[3] = (aa >= inp.AngA - 0.01 && aa <= inp.AngA + 0.01);
+            match[4] = (ab >= inp.AngB - 0.01 && ab <= inp.AngB + 0.01);
+            match[5] = (ac >= inp.AngC - 0.01 && ac <= inp.AngC + 0.01);
 
             string s = $"";
 
